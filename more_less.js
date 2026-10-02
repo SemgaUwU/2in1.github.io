@@ -110,7 +110,7 @@ variant.forEach(element => {
 
         let exit = document.querySelector('.exit')
         exit.addEventListener('click', function() {
-            window.location.href = 'file:///c%3A/Users/Semgaaa/.vscode/protdot/Index.html'
+            window.location.href = 'index.html'
         })
 
     })

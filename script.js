@@ -3,11 +3,11 @@ let button2 = document.querySelector('.button2')
 
 button1.addEventListener('click', function() {
     document.querySelector('#bg-audio').play()
-    window.location.href = 'file:///c%3A/Users/Semgaaa/.vscode/protdot/more_less.html'
+    window.location.href = 'more_less.html'
 })
 
 button2.addEventListener('click', function() {
-    window.location.href = 'file:///c%3A/Users/Semgaaa/.vscode/protdot/safe.html'
+    window.location.href = 'safe.html'
 })
 
 button1.addEventListener('mouseover', function() {
