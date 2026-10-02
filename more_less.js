@@ -4,6 +4,8 @@ let midd = document.querySelector('.midd')
 let hard = document.querySelector('.hard')
 
 
+let restart = document.querySelector('.restart')
+
 variant.forEach(element => {
     element.addEventListener('click', function(e) {
 
@@ -66,6 +68,8 @@ variant.forEach(element => {
                             document.querySelector('.number').textContent = number
                             numberElement.style.color = 'green'
                         }
+
+                        if (restart) restart.style.display = 'block'
                         
                         return
                     } 
@@ -101,6 +105,9 @@ variant.forEach(element => {
                             numberElement.style.color = 'red'
                         }
                         input.disabled = true
+
+                        if (restart) restart.style.display = 'block'
+
                         return;
                     }
 
@@ -113,6 +120,78 @@ variant.forEach(element => {
             window.location.href = 'index.html'
         })
 
+        exit.addEventListener('mouseover', function() {
+            exit.style.backgroundColor = '#d3c098'
+        })
+        exit.addEventListener('mouseout', function() {
+            exit.style.backgroundColor = '#f7e7c6'
+        })
+
     })
 
+})
+
+if (restart) {
+    restart.addEventListener('click', function() {
+        restart.style.display = 'none'
+        
+        document.querySelector('.option').style.display = 'block'
+        
+        let inp_ez = document.querySelectorAll('.ez')
+        let inp_mid = document.querySelectorAll('.mid')
+        inp_ez.forEach(el => el.style.display = '')
+        inp_mid.forEach(el => el.style.display = '')
+        
+        let numberElement = document.querySelector('.number')
+        if (numberElement) {
+            numberElement.textContent = '?'
+            numberElement.style.color = '' 
+        }
+        
+        let inputs = document.querySelectorAll(".guess-input")
+        inputs.forEach((input, index) => {
+            input.type = "number"
+            input.value = ""
+            if (index === 0) {
+                input.disabled = false
+                input.focus()
+            } else {
+                input.disabled = true
+            }
+        })
+        
+        document.querySelector('.moves').textContent = ''
+    })
+}
+
+
+easy.addEventListener('mouseover', function() {
+    easy.style.backgroundColor = '#d3c098'
+})
+easy.addEventListener('mouseout', function() {
+    easy.style.backgroundColor = '#f7e7c6'
+})
+
+
+midd.addEventListener('mouseover', function() {
+    midd.style.backgroundColor = '#d3c098'
+})
+midd.addEventListener('mouseout', function() {
+    midd.style.backgroundColor = '#f7e7c6'
+})
+
+hard.addEventListener('mouseover', function() {
+    hard.style.backgroundColor = '#d3c098'
+})
+
+hard.addEventListener('mouseout', function() {
+    hard.style.backgroundColor = '#f7e7c6'
+})
+
+
+restart.addEventListener('mouseover', function() {
+    restart.style.backgroundColor = '#d3c098'
+})
+restart.addEventListener('mouseout', function() {
+    restart.style.backgroundColor = '#f7e7c6'
 })

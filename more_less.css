@@ -88,3 +88,20 @@ body {
     font-size: 20px;
     cursor: pointer;
 }
+
+.restart {
+    display: none;
+    height: fit-content;
+    width: 10vw;
+    background-color: #f7e7c6;
+    border: black solid 3px;
+    font-family: "Rubik Dirt", system-ui;
+    font-size: 25px;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: 20px;
+    position: absolute;
+    bottom: 50vh;
+    right: 16vw;
+}

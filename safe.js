@@ -108,6 +108,24 @@ exit.addEventListener('click', function() {
     window.location.href = 'index.html'
 })
 
+exit.addEventListener('mouseover', function() {
+    exit.style.backgroundColor = '#d3c098'
+})
+exit.addEventListener('mouseout', function() {
+    exit.style.backgroundColor = '#f7e7c6'
+})
+
+
+
+submitBtn.addEventListener('mouseover', function() {
+    submitBtn.style.backgroundColor = '#f5ebd0'
+    submitBtn.style.color = '#1a1a1a'
+})
+submitBtn.addEventListener('mouseout', function() {
+    submitBtn.style.backgroundColor = '#1a1a1a'
+    submitBtn.style.color = '#f5ebd0'
+})
+
 restartBtn.addEventListener('click', initGame)
 
 initGame()

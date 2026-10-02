@@ -45,7 +45,7 @@ body {
 }
 
 .numbers {
-    margin-top: 20px;
+    margin-top: 10vh;
     width: 15vw;
     height: 20vh;
     user-select: none;
@@ -127,3 +127,4 @@ body {
     border: black solid 10px;
     height: 18vh;
 }
+

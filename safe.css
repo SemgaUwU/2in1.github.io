@@ -121,6 +121,7 @@ button {
     cursor: pointer;
     font-weight: bold;
     transition: opacity 0.2s;
+    border: #1a1a1a solid 1px;
 }
 
 button:hover {
