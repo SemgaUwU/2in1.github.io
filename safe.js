@@ -105,7 +105,7 @@ userInput.addEventListener('keypress', (e) => {
 
 let exit = document.querySelector('.exit')
 exit.addEventListener('click', function() {
-    window.location.href = 'imdex.html'
+    window.location.href = 'index.html'
 })
 
 restartBtn.addEventListener('click', initGame)
