@@ -1,197 +1,158 @@
-let variant = document.querySelectorAll('.variant')
-let easy = document.querySelector('.easy')
-let midd = document.querySelector('.midd')
-let hard = document.querySelector('.hard')
+const variants = document.querySelectorAll('.variant')
+const option = document.querySelector('.option')
+const restart = document.querySelector('.restart')
+const exit = document.querySelector('.exit')
+const movesEl = document.querySelector('.moves')
+const numberEl = document.querySelector('.number')
+const inputs = Array.from(document.querySelectorAll('.guess-input'))
 
+const LEVELS = { easy: 10, midd: 7, hard: 5 }
 
-let restart = document.querySelector('.restart')
+let movesCount = 0
+let number = 0
+let playing = false
+let activeInputs = []
 
-variant.forEach(element => {
-    element.addEventListener('click', function(e) {
+const overlay = document.createElement('div')
+overlay.className = 'transition'
+document.body.appendChild(overlay)
 
-        let movesCount = 0
-
-        let inp_ez = document.querySelectorAll('.ez')
-        let inp_mid = document.querySelectorAll('.mid')
-        let option = document.querySelector('.option')
-
-        if (e.target.classList.contains('easy')) {
-            movesCount = 10
-            option.style.display = 'none'
-        }
-
-        if (e.target.classList.contains('midd')) {
-            movesCount = 7
-            inp_mid.forEach(el => el.style.display = 'none')
-            option.style.display = 'none'
-        }
-
-        if (e.target.classList.contains('hard')) {
-            movesCount = 5
-            inp_ez.forEach(el => el.style.display = 'none')
-            option.style.display = 'none'
-        }
-
-
-        let inputs = document.querySelectorAll(".guess-input")
-        let moves = document.querySelector('.moves')
-        
-
-        
-
-        if (moves) moves.textContent = movesCount
-        let number = Math.floor(Math.random() * 100)
-
-        inputs.forEach((input, index) => {
-            input.addEventListener("keydown", (event) => {
-                if (event.key === "Enter") {
-                    event.preventDefault() 
-
-                    let userGuess = parseInt(input.value)
-
-                    if (isNaN(userGuess)) {
-                        alert("Введите число!")
-                        return
-                    }
-
-                    movesCount--
-                    moves.textContent = movesCount
-                    
-                    if (userGuess == number) {
-                        input.type = "text"
-                        input.value = `${userGuess} ⠀–⠀⠀Угадал!`
-                        input.disabled = true
-
-                        let numberElement = document.querySelector('.number')
-                        if (numberElement) {
-                            numberElement.textContent = number
-                            document.querySelector('.number').textContent = number
-                            numberElement.style.color = 'green'
-                        }
-
-                        if (restart) restart.style.display = 'block'
-                        
-                        return
-                    } 
-
-                    if (userGuess < number) {
-                        input.type = "text"
-                        input.value = `${userGuess} ⠀–⠀⠀Больше`
-                    } 
-                    
-                    else {
-                        input.type = "text"
-                        input.value = `${userGuess} ⠀–⠀ Меньше`
-                    }
-                    
-                    let nextInput = inputs[index + 1]
-
-                    if (nextInput) {
-                        nextInput.disabled = false
-                        nextInput.focus();          
-                        input.disabled = true  
-                    }
-                    else {
-                        input.disabled = true
-                        
-                    }
-
-                    if (movesCount == 0 && userGuess != number) {
-                        input.type = "text"
-                        let numberElement = document.querySelector('.number')
-                        if (numberElement) {
-                            numberElement.textContent = number
-                            document.querySelector('.number').textContent = number
-                            numberElement.style.color = 'red'
-                        }
-                        input.disabled = true
-
-                        if (restart) restart.style.display = 'block'
-
-                        return;
-                    }
-
-                }
-            })
-        })
-
-        let exit = document.querySelector('.exit')
-        exit.addEventListener('click', function() {
-            window.location.href = 'index.html'
-        })
-
-        exit.addEventListener('mouseover', function() {
-            exit.style.backgroundColor = '#d3c098'
-        })
-        exit.addEventListener('mouseout', function() {
-            exit.style.backgroundColor = '#f7e7c6'
-        })
-
-    })
-
-})
-
-if (restart) {
-    restart.addEventListener('click', function() {
-        restart.style.display = 'none'
-        
-        document.querySelector('.option').style.display = 'block'
-        
-        let inp_ez = document.querySelectorAll('.ez')
-        let inp_mid = document.querySelectorAll('.mid')
-        inp_ez.forEach(el => el.style.display = '')
-        inp_mid.forEach(el => el.style.display = '')
-        
-        let numberElement = document.querySelector('.number')
-        if (numberElement) {
-            numberElement.textContent = '?'
-            numberElement.style.color = '' 
-        }
-        
-        let inputs = document.querySelectorAll(".guess-input")
-        inputs.forEach((input, index) => {
-            input.type = "number"
-            input.value = ""
-            if (index === 0) {
-                input.disabled = false
-                input.focus()
-            } else {
-                input.disabled = true
-            }
-        })
-        
-        document.querySelector('.moves').textContent = ''
-    })
+function goTo(url, event) {
+    overlay.style.setProperty('--x', event.clientX + 'px')
+    overlay.style.setProperty('--y', event.clientY + 'px')
+    overlay.classList.add('active')
+    setTimeout(() => (window.location.href = url), 800)
 }
 
+window.addEventListener('pageshow', () => overlay.classList.remove('active'))
+exit.addEventListener('click', e => goTo('index.html', e))
 
-easy.addEventListener('mouseover', function() {
-    easy.style.backgroundColor = '#d3c098'
-})
-easy.addEventListener('mouseout', function() {
-    easy.style.backgroundColor = '#f7e7c6'
+function setMoves(n) {
+    movesEl.textContent = n
+    movesEl.classList.remove('pop')
+    void movesEl.offsetWidth 
+    movesEl.classList.add('pop')
+}
+
+function shake(el) {
+    el.classList.remove('shake')
+    void el.offsetWidth
+    el.classList.add('shake')
+}
+
+function resetBoard() {
+    inputs.forEach(input => {
+        input.type = 'number'
+        input.value = ''
+        input.disabled = true
+        input.className = 'guess-input'
+        input.closest('p').classList.remove('off')
+    })
+    numberEl.textContent = '?'
+    numberEl.className = 'number'
+}
+
+function confetti() {
+    const colors = ['#f8c630', '#e76f51', '#2a9d8f', '#e9c46a', '#9b5de5', '#00bbf9']
+    for (let i = 0; i < 70; i++) {
+        const c = document.createElement('div')
+        c.className = 'confetti'
+        c.style.left = Math.random() * 100 + 'vw'
+        c.style.background = colors[i % colors.length]
+        c.style.setProperty('--dx', Math.random() * 200 - 100 + 'px')
+        c.style.animationDuration = 2 + Math.random() * 2 + 's'
+        c.style.animationDelay = Math.random() * 0.5 + 's'
+        document.body.appendChild(c)
+        c.addEventListener('animationend', () => c.remove())
+    }
+}
+
+function endGame(win) {
+    playing = false
+    numberEl.textContent = number
+    numberEl.classList.add('reveal', win ? 'win' : 'lose')
+    if (win) confetti()
+    setTimeout(() => restart.classList.add('show'), 500)
+}
+
+function startGame(level) {
+    resetBoard()
+
+    movesCount = LEVELS[level]
+    number = Math.floor(Math.random() * 99) + 1 // от 1 до 99
+
+    if (level === 'midd') document.querySelectorAll('.mid').forEach(el => el.classList.add('off'))
+    if (level === 'hard') document.querySelectorAll('.ez').forEach(el => el.classList.add('off'))
+
+    activeInputs = inputs.filter(i => !i.closest('p').classList.contains('off'))
+
+    setMoves(movesCount)
+    option.classList.add('hide')
+    playing = true
+
+    activeInputs[0].disabled = false
+    setTimeout(() => activeInputs[0].focus(), 400)
+}
+
+variants.forEach(v => {
+    v.addEventListener('click', () => {
+        const level = Object.keys(LEVELS).find(k => v.classList.contains(k))
+        startGame(level)
+    })
 })
 
+inputs.forEach(input => {
+    input.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' || !playing) return
+        event.preventDefault()
 
-midd.addEventListener('mouseover', function() {
-    midd.style.backgroundColor = '#d3c098'
-})
-midd.addEventListener('mouseout', function() {
-    midd.style.backgroundColor = '#f7e7c6'
+        const userGuess = parseInt(input.value)
+
+        if (isNaN(userGuess)) {
+            shake(input)
+            return
+        }
+
+        movesCount--
+        setMoves(movesCount)
+
+        input.type = 'text'
+        input.disabled = true
+
+        if (userGuess === number) {
+            input.value = `${userGuess}  -  Угадал!`
+            input.classList.add('win')
+            endGame(true)
+            return
+        }
+
+        if (userGuess < number) {
+            input.value = `${userGuess}  -  Больше`
+            input.classList.add('more')
+        } else {
+            input.value = `${userGuess}  -  Меньше`
+            input.classList.add('less')
+        }
+
+        if (movesCount === 0) {
+            endGame(false)
+            return
+        }
+
+        const next = activeInputs[activeInputs.indexOf(input) + 1]
+        if (next) {
+            next.disabled = false
+            next.focus()
+        }
+    })
 })
 
-hard.addEventListener('mouseover', function() {
-    hard.style.backgroundColor = '#d3c098'
+restart.addEventListener('click', () => {
+    restart.classList.remove('show')
+    resetBoard()
+    movesEl.textContent = ''
+    option.classList.remove('hide')
+    playing = false
 })
 
-hard.addEventListener('mouseout', function() {
-    hard.style.backgroundColor = '#f7e7c6'
-})
-
-
-restart.addEventListener('mouseover', function() {
-    restart.style.backgroundColor = '#d3c098'
-})
-restart.addEventListener('mouseout', function() {
-    restart.style.backgroundColor = '#f7e7c6'
-})
+resetBoard()

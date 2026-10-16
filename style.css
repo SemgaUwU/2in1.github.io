@@ -8,27 +8,64 @@ body {
     margin: 0;
     display: flex;
     flex-direction: row;
+    overflow: hidden;
+    animation: pageIn 0.8s ease both;
+}
+
+@keyframes pageIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes slideLeft {
+    from { opacity: 0; transform: translateX(-60px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideRight {
+    from { opacity: 0; transform: translateX(60px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes dropIn {
+    from { opacity: 0; transform: translateY(-30px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50%      { transform: translateY(-14px) rotate(3deg); }
+}
+
+@keyframes safeGlow {
+    0%, 100% { box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
+    50%      { box-shadow: 0 0 25px rgba(90, 60, 20, 0.45); }
 }
 
 .one {
     width: 50vw;
     height: 100vh;
     text-align: center;
-    background-color: #faf0dc;
+    background: linear-gradient(135deg, #fff8e6 0%, #faf0dc 50%, #f5e2b8 100%);
+    animation: slideLeft 0.9s cubic-bezier(.2, .8, .2, 1) both;
+    position: relative;
+    overflow: hidden;
 }
 
 .title1 {
     font-size: 50px;
     font-family: "Rubik Dirt", system-ui;
+    animation: dropIn 0.9s 0.3s ease both;
 }
 
 .txt1 {
     text-align: center;
-    margin: 0 auto; 
+    margin: 0 auto;
     margin-top: -30px;
     font-family: "Rubik Dirt", system-ui;
     width: 30vw;
     font-size: 20px;
+    animation: dropIn 0.9s 0.5s ease both;
 }
 
 .button1 {
@@ -37,11 +74,25 @@ body {
     margin-top: 42px;
     margin-left: 5vw;
     margin-right: 5vw;
-    cursor: help;
+    cursor: pointer;
     user-select: none;
     font-family: "Sekuya", system-ui;
     background-color: #f9eacd;
     border-radius: 15px;
+    box-shadow: 0 6px 0 #c9b48a;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    animation: dropIn 0.9s 0.7s ease both;
+}
+
+.button1:hover {
+    background-color: #f8e0af;
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 12px 0 #c9b48a, 0 18px 30px rgba(0, 0, 0, 0.2);
+}
+
+.button1:active {
+    transform: translateY(4px) scale(0.98);
+    box-shadow: 0 2px 0 #c9b48a;
 }
 
 .numbers {
@@ -49,6 +100,7 @@ body {
     width: 15vw;
     height: 20vh;
     user-select: none;
+    animation: float 5s ease-in-out infinite;
 }
 
 .equals {
@@ -58,6 +110,7 @@ body {
     top: 73vh;
     left: 35vw;
     user-select: none;
+    animation: float 4s 0.4s ease-in-out infinite;
 }
 
 .less {
@@ -67,6 +120,7 @@ body {
     user-select: none;
     left: 40vw;
     bottom: 45vh;
+    animation: float 4.5s 0.8s ease-in-out infinite;
 }
 
 .greater {
@@ -76,28 +130,32 @@ body {
     bottom: 35vh;
     left: 5vw;
     user-select: none;
+    animation: float 5s 1.2s ease-in-out infinite;
 }
 
 .two {
     width: 50vw;
     height: 100vh;
-    background-color: #cbbe99;
+    background: linear-gradient(135deg, #d8c6a5 0%, #cbbe99 50%, #b9aa80 100%);
     text-align: center;
+    animation: slideRight 0.9s cubic-bezier(.2, .8, .2, 1) both;
+    overflow: hidden;
 }
 
 .title2 {
     font-size: 50px;
     font-family: "Rubik Dirt", system-ui;
-    
+    animation: dropIn 0.9s 0.3s ease both;
 }
 
 .txt2 {
     text-align: center;
-    margin: 0 auto; 
+    margin: 0 auto;
     margin-top: -30px;
     font-family: "Rubik Dirt", system-ui;
     width: 30vw;
     font-size: 20px;
+    animation: dropIn 0.9s 0.5s ease both;
 }
 
 .button2 {
@@ -106,11 +164,25 @@ body {
     margin-top: 20px;
     margin-left: 5vw;
     margin-right: 5vw;
-    cursor: help;
+    cursor: pointer;
     user-select: none;
     font-family: "Sekuya", system-ui;
     background-color: #c0b085;
     border-radius: 15px;
+    box-shadow: 0 6px 0 #8f8157;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    animation: dropIn 0.9s 0.7s ease both;
+}
+
+.button2:hover {
+    background-color: #aca287;
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 12px 0 #8f8157, 0 18px 30px rgba(0, 0, 0, 0.25);
+}
+
+.button2:active {
+    transform: translateY(4px) scale(0.98);
+    box-shadow: 0 2px 0 #8f8157;
 }
 
 .safe {
@@ -121,6 +193,13 @@ body {
     margin-top: 10vh;
     height: 20vh;
     padding: 10px;
+    background: linear-gradient(145deg, #8a8a8a, #4d4d4d);
+    animation: dropIn 1s 0.9s ease both, safeGlow 3s 2s ease-in-out infinite;
+    transition: transform 0.3s ease;
+}
+
+.safe:hover {
+    transform: scale(1.03);
 }
 
 .safe div {
@@ -128,3 +207,25 @@ body {
     height: 18vh;
 }
 
+.transition {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    background: #faf0dc;
+    clip-path: circle(0 at var(--x, 50%) var(--y, 50%));
+    transition: clip-path 0.8s cubic-bezier(.77, 0, .18, 1);
+}
+
+.transition.active {
+    pointer-events: all;
+    clip-path: circle(150vmax at var(--x, 50%) var(--y, 50%));
+}
+
+.numbers,
+.equals,
+.less,
+.greater {
+    filter: contrast(1.4);
+    mix-blend-mode: multiply;
+}
