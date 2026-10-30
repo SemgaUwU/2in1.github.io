@@ -140,6 +140,8 @@ body {
     text-align: center;
     animation: slideRight 0.9s cubic-bezier(.2, .8, .2, 1) both;
     overflow: hidden;
+
+    perspective: 1000px; 
 }
 
 .title2 {
@@ -186,21 +188,20 @@ body {
 }
 
 .safe {
-    border: black solid 10px;
-    border-radius: 7px;
-    margin-right: 10vw;
-    margin-left: 10vw;
-    margin-top: 10vh;
-    height: 20vh;
-    padding: 10px;
-    background: linear-gradient(145deg, #8a8a8a, #4d4d4d);
-    animation: dropIn 1s 0.9s ease both, safeGlow 3s 2s ease-in-out infinite;
-    transition: transform 0.3s ease;
+  border: black solid 10px;
+  border-radius: 7px;
+  margin-right: 10vw;
+  margin-left: 10vw;
+  margin-top: 10vh;
+  height: 20vh;
+  padding: 10px;
+  background: linear-gradient(145deg, #8a8a8a, #4d4d4d);
+  
+  animation: dropIn 1s 0.9s ease both, safeGlow 3s 2s ease-in-out infinite;
+  
+  transform-style: preserve-3d; 
 }
 
-.safe:hover {
-    transform: scale(1.03);
-}
 
 .safe div {
     border: black solid 10px;

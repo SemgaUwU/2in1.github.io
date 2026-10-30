@@ -31,6 +31,29 @@ window.addEventListener('pageshow', function () {
 
 document.querySelectorAll('.digit').forEach(d => {
     d.addEventListener('click', () => {
-        d.textContent = (Number(d.textContent) + 1) % 10;
-    });
-});
+        d.textContent = (Number(d.textContent) + 1) % 10
+    })
+})
+
+let safe = document.querySelector('.safe')
+
+document.addEventListener('mousemove', (e) => {
+  let rect = safe.getBoundingClientRect()
+  
+  let safeCenterX = rect.left + rect.width / 2
+  let safeCenterY = rect.top + rect.height / 2
+  
+  let deltaX = e.clientX - safeCenterX
+  let deltaY = e.clientY - safeCenterY
+  
+  let maxTilt = 25 
+  
+  let tiltX = -(deltaY / window.innerHeight) * maxTilt
+  let tiltY = (deltaX / window.innerWidth) * maxTilt
+  
+  safe.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.03)`
+})
+
+document.addEventListener('mouseleave', () => {
+  safe.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)'
+})
