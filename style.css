@@ -188,24 +188,85 @@ body {
 }
 
 .safe {
-  border: black solid 10px;
-  border-radius: 7px;
-  margin-right: 10vw;
-  margin-left: 10vw;
-  margin-top: 10vh;
-  height: 20vh;
-  padding: 10px;
-  background: linear-gradient(145deg, #8a8a8a, #4d4d4d);
-  
-  animation: dropIn 1s 0.9s ease both, safeGlow 3s 2s ease-in-out infinite;
-  
-  transform-style: preserve-3d; 
+    box-sizing: border-box;
+
+    border: 10px solid black;
+    border-radius: 7px;
+
+    margin: 10vh 10vw 0;
+
+    height: 25vh;
+    padding: 10px;
+
+    background: linear-gradient(
+        145deg,
+        #8a8a8a,
+        #4d4d4d
+    );
+
+    transform-style: preserve-3d;
+    transform-origin: center center;
+
+    transition: transform 0.3s ease-out;
+
+    will-change: transform;
 }
 
+.safe-eyes {
+    position: absolute;
+    top: 15%;
+    left: 50%;
 
-.safe div {
-    border: black solid 10px;
-    height: 18vh;
+    transform: translateX(-50%);
+
+    width: 65%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    z-index: 10;
+    pointer-events: none;
+}
+
+.eye {
+    position: relative;
+
+    width: 55px;
+    height: 55px;
+
+    flex-shrink: 0;
+
+    background: white;
+    border: 3px solid black;
+    border-radius: 50%;
+
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.eye-left {
+    margin-top: 15px;
+}
+
+.pupil {
+    position: absolute;
+
+    width: 23px;
+    height: 23px;
+
+    background: black;
+    border-radius: 50%;
+}
+
+.eye-left .pupil {
+    left: 4px;
+    top: 4px;
+}
+
+.eye-right .pupil {
+    right: 4px;
+    top: 16px;
 }
 
 .transition {

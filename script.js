@@ -35,25 +35,43 @@ document.querySelectorAll('.digit').forEach(d => {
     })
 })
 
-let safe = document.querySelector('.safe')
 
-document.addEventListener('mousemove', (e) => {
-  let rect = safe.getBoundingClientRect()
-  
-  let safeCenterX = rect.left + rect.width / 2
-  let safeCenterY = rect.top + rect.height / 2
-  
-  let deltaX = e.clientX - safeCenterX
-  let deltaY = e.clientY - safeCenterY
-  
-  let maxTilt = 25 
-  
-  let tiltX = -(deltaY / window.innerHeight) * maxTilt
-  let tiltY = (deltaX / window.innerWidth) * maxTilt
-  
-  safe.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.03)`
-})
 
-document.addEventListener('mouseleave', () => {
-  safe.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)'
-})
+const safe = document.querySelector('.safe');
+const panel = document.querySelector('.two');
+
+if (safe && panel) {
+    const maxTilt = 20;
+
+    panel.addEventListener('mousemove', (e) => {
+        const safeRect = safe.getBoundingClientRect();
+        const panelRect = panel.getBoundingClientRect();
+
+        const centerX = safeRect.left + safeRect.width / 2;
+        const centerY = safeRect.top + safeRect.height / 2;
+
+        const deltaX = e.clientX - centerX;
+        const deltaY = e.clientY - centerY;
+
+        const normalizedX = deltaX / (panelRect.width / 2);
+        const normalizedY = deltaY / (panelRect.height / 2);
+
+        const tiltY = Math.max(
+            -maxTilt,
+            Math.min(maxTilt, normalizedX * maxTilt)
+        );
+
+        const tiltX = Math.max(
+            -maxTilt,
+            Math.min(maxTilt, -normalizedY * maxTilt)
+        );
+
+        safe.style.transform =
+            `translateZ(0) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale(1.03)`;
+    });
+
+    panel.addEventListener('mouseleave', () => {
+        safe.style.transform =
+            'translateZ(0) rotateX(0deg) rotateY(0deg) scale(1)';
+    });
+}
